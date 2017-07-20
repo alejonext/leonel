@@ -6,6 +6,7 @@ checkConfig(config, ['SLACK_TOKEN', 'SLACK_ADMIN_TOKEN', 'SLACK_TEAM_NAME', 'DEB
 
 const Botkit = require('botkit')
 const invite = require('./lib/invite')
+const calendar = require('./lib/calendar')
 const onboard = require('./lib/onboard')
 const guests = require('./lib/guests')
 const storage = require('botkit-storage-mongo')({ mongoUri: config.MONGO_URI })
@@ -50,6 +51,11 @@ controller.hears(['coqueto'], ['direct_mention', 'direct_message'], (bot, messag
  * Invitations
  */
 controller.hears('invite a <mailto:(.*)\\|.*>', 'direct_message', invite)
+
+/**
+ * Calendar
+ */
+controller.hears(['calendario', 'calendario de #(.*)'], ['direct_mention', 'direct_message'], calendar)
 
 // force invites to come through DM
 controller.hears('invite', 'direct_mention', (bot, message) => {
